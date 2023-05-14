@@ -1,0 +1,12 @@
+.requestListFilter {
+    .radioGroup {
+        width:100%;
+        display: flex;
+        //justify-content: stretch;
+        .radioButton{
+            width:0;
+            flex: 1;
+            white-space: nowrap;
+        }
+    }
+}

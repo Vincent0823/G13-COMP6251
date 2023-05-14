@@ -1,0 +1,9 @@
+.requestListButtons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    .button {
+        margin-bottom: 10px;
+    }
+}

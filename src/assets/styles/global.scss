@@ -1,0 +1,9 @@
+$color:rgb(239, 238, 233);// SCSS变量
+body{
+    //background-color:$color;
+    //background-image: url("../../assets/image/starBackground.jpg");
+    user-select: none;//禁用文字选中
+}
+img{
+    -webkit-user-drag: none;//禁用图片拖动
+}

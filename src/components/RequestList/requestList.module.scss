@@ -1,0 +1,30 @@
+$hoverColor: rgb(159, 181, 222);
+
+.requestList {
+
+
+    .list {
+        margin: 0 0 10px 0;
+
+        .item:hover {
+            // background-color: rgb(159, 181, 222);
+            background-color: $hoverColor;
+        }
+
+        .item {
+            .extra {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+
+                Button {
+                    margin-top: 10px;
+                }
+            }
+
+
+        }
+    }
+
+
+}

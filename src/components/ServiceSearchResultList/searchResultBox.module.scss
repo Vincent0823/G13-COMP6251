@@ -1,0 +1,16 @@
+$hoverColor: rgb(159, 181, 222);
+$activeColor:rgb(77, 122, 204);
+.searchResultBox {
+
+    .list {
+        margin: 0 0 10px 0;
+
+        .item:hover {
+            background-color: $hoverColor;
+        }
+
+        .item:active {
+            background-color: $activeColor;
+        }
+    }
+}

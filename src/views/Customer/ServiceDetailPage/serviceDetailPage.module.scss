@@ -1,0 +1,14 @@
+.serviceDetail{
+    display:flex;
+    flex-direction: column;
+    .part{
+        margin: 0 0 10px 0;
+        >*{
+            margin:5px 10px 0 10px;
+        }
+        .serviceName{
+            font-size: 30px;
+            
+        }
+    }
+}
