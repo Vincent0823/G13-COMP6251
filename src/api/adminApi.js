@@ -56,7 +56,7 @@ export const $loadProviders = async (pageIndex,pageSize) =>{
 
 //get provider-by-one
 export const $loadProvidersByOne = async (id) =>{
-    let {data} = await axios.get(baseURL+'/cw/admin/getOneProvider?id='+id)
+    let data = await axios.get(baseURL+'/cw/admin/getOneProvider?id='+id)
     return data
 }
 

@@ -17,7 +17,14 @@ import {
 } from 'antd';
 import './Service.scss'
 import {StarOutlined} from "@ant-design/icons";
-import {$loadProvidersByOne, $fetchServiceListByAdmin, $fetchDetailedServiceInfo, $deleteReview, $fetchServiceTypeByAdmin} from '../../../api/adminApi'
+import {
+    $loadProvidersByOne,
+    $fetchServiceListByAdmin,
+    $fetchDetailedServiceInfo,
+    $deleteReview,
+    $fetchServiceTypeByAdmin,
+    $del
+} from '../../../api/adminApi'
 import MyNotification from "../../../components/MyNotification/MyNotification";
 
 const DescriptionItem = ({ title, content }) => (
@@ -61,6 +68,8 @@ export default function Service(){
     const[categoryId, setCategoryId] = useState('')
     const[reviews, setReviews] = useState('')
     const[serviceDetails, setServiceDetails] = useState([])
+    const [oneProvider, setOneProvider] = useState('');
+    const [isRemoved, setIsRemoved] = useState(false);
     let [notiMsg,setNotiMsg] = useState({type:'',description:''})
     const [count, setCount] = useState(1);
     const [pageIndex, setPageIndex] = useState(1);
@@ -147,8 +156,16 @@ export default function Service(){
         setOpenDrawer(false);
     };
     const showProviderDrawer =(res)=> {
-        setOpenProviderDrawer(true)
-        let data = $loadProvidersByOne(res)
+
+        $loadProvidersByOne(res).then(data=>{
+            console.log(data)
+            if(data.data.code == 201){
+                setNotiMsg({type:'error',description:'Provider has been deleted!'})
+                return
+            }
+            setOpenProviderDrawer(true)
+            setOneProvider(data.data.data)
+        })
     }
     const onCloseProvider = () => {
         setOpenProviderDrawer(false);
@@ -198,6 +215,17 @@ export default function Service(){
             key: 'status',
         },
     ]
+    const handleDelete = async (ret)=>{
+
+        let data = await $del(ret)
+
+        if(data.data.code == 200) {
+            setNotiMsg({type: 'success', description: data.data.data})
+            setIsRemoved(true)
+        }else{
+            setNotiMsg({type: 'error', description: data.data.data})
+        }
+    }
 
     return(
         <div>
@@ -327,10 +355,54 @@ export default function Service(){
 
             </Drawer>
 
-            <Drawer width={640} placement="right" closable={false} onClose={onCloseProvider} open={openProviderDrawer}>
-                <a>
-                    provider here
-                </a>
+            <Drawer width={840} placement="right" closable={false} onClose={onCloseProvider} open={openProviderDrawer}>
+                <p
+                    className="site-description-item-profile-p"
+                    style={{
+                        marginBottom: 24,
+                    }}
+                >
+                    🇬🇧Provider Details🇬🇧
+                </p>
+                <Divider />
+                <Row>
+                    <Col span={12}>
+                        <DescriptionItem title="📌 Provider ID" content={oneProvider.providerid} />
+                    </Col>
+                    <Col span={12}>
+                        <DescriptionItem title="📌 Email Address" content={oneProvider.email} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={12}>
+                        <DescriptionItem title="📌 Address" content={oneProvider.address} />
+                    </Col>
+                    <Col span={12}>
+                        <DescriptionItem title="📌 Description" content={oneProvider.description} />
+                    </Col>
+                </Row>
+                <Divider/>
+                <Row>
+                    <Col span={12}>
+                        <DescriptionItem title="📌 ID Photo" content={<img style={{  width: '200px', height: '200px'}} src={oneProvider.idphotourl}/>} />
+                    </Col>
+                    <Col span={12}>
+                        <DescriptionItem title="📌 Serving Licence" content={<img style={{  width: '200px', height: '200px'}} src={oneProvider.proofphoto}/>} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={12}>
+
+                    </Col>
+                    <Col >
+                        <Button style={{width:400}} type="primary" danger className='table-button-agree' onClick={()=>{handleDelete(oneProvider.providerid)}}>
+                            Delete Provider
+                        </Button>
+                    </Col>
+                    <Col span={12}>
+
+                    </Col>
+                </Row>
 
             </Drawer>
 

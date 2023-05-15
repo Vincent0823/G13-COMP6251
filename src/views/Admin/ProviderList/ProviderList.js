@@ -16,7 +16,6 @@ export default function ProviderList() {
     const handleDelete = async (ret)=>{
 
         let data = await $del(ret.providerid)
-
         if(data.data.code == 200) {
             setNotiMsg({type: 'success', description: data.data.data})
         }else{
@@ -85,10 +84,6 @@ export default function ProviderList() {
             <Pagination size={'default'} style={{marginTop:"10px",}} defaultCurrent={pageIndex}
                         total={count} pageSize={10} onChange={(page)=>{setPageIndex(page)}}/>
             <MyNotification type={notiMsg.type} description={notiMsg.description}/>
-
-
-
-
 
         </>
 
