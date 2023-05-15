@@ -134,7 +134,7 @@ function ServiceDetailPage() {
 
             {/* Request */}
             <div className={styles.part}>
-                <PopUp serviceid={serviceid} />
+                <PopUp serviceid={serviceid} servicestatus={stateData.Service.status}/>
             </div>
 
             {/* Tabs: Detail, time, reviews */}

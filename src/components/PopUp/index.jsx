@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Button, Modal } from 'antd';
 import RequestDescription from '../RequestASurveyForm';
 import styles from "./popUp.module.scss"
 
-//props:{serviceid:number}
+//props:{serviceid:number, servicestatus:}
 function PopUp(props) {
     let serviceid = props.serviceid
     //const [loading, setLoading] = useState(false);
     const [stateOpen, setOpen] = useState(false);
+    const [stateDisabled, setDisabled] = useState(false);
+
+    useEffect(()=>{
+        if(props.servicestatus === 1) {
+            setDisabled(true);
+        }
+    },[]);
 
     //点击弹窗触发按钮时，弹出弹窗
     const handleOnClickShow = () => {
@@ -30,7 +37,7 @@ function PopUp(props) {
 
     return (
         <div className={styles.popUpBox}>
-            <Button block type="primary" onClick={handleOnClickShow}>
+            <Button block type="primary" onClick={handleOnClickShow} disabled={stateDisabled}>
                 I WANT
             </Button>
             <Modal

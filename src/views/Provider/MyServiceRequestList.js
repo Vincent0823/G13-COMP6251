@@ -27,7 +27,7 @@ const requestStatusList = [
     },
     {
         value: '0',
-        label: 'Waiting List'
+        label: 'Pending'
     },
     {
         value: '1',
@@ -39,7 +39,7 @@ const requestStatusList = [
     },
     {
         value: '3',
-        label: 'Pending',
+        label: 'Require Further Details',
     },
     {
         value: '4',
@@ -65,6 +65,7 @@ export default function ProviderServicePage(){
     const [requestStatus, setRequestStatus] = useState({id:'',status:'',reason:''});
 
     const[serviceList, setServiceList] = useState(false)
+    const[detailLIst222, setDetailList222] = useState(false)
     const[serviceTypeList, setServiceTypeList] = useState([])
     const[status, setStatus] = useState('')
     const[serviceID, setServiceID] = useState('')
@@ -88,13 +89,13 @@ export default function ProviderServicePage(){
             setCount(data.data.total)
             data = data.data.records.map(r=>{
                 if(r.status == 0){
-                    r.status = 'Waiting List'
+                    r.status = 'Pending'
                 }else if(r.status == 1){
                     r.status = 'Accepted'
                 }else if(r.status == 2){
                     r.status = 'Rejected'
                 }else if(r.status == 3){
-                    r.status = 'Pending'
+                    r.status = 'Require Further Details'
                 }else if(r.status == 4){
                     r.status = 'Completed'
                 }
@@ -123,17 +124,47 @@ export default function ProviderServicePage(){
         setOpenDrawer(true);
         let data = await $fetchRequestDetails(ret)
         console.log(data)
+        if(data.data.serviceRequest.status == 0){
+            data.data.serviceRequest.status = 'Pending'
+        }else if(data.data.serviceRequest.status == 1){
+            data.data.serviceRequest.status = 'Accepted'
+        }else if(data.data.serviceRequest.status == 2){
+            data.data.serviceRequest.status = 'Rejected'
+        }else if(data.data.serviceRequest.status == 3){
+            data.data.serviceRequest.status = 'Require Further Details'
+        }else if(data.data.serviceRequest.status == 4){
+            data.data.serviceRequest.status = 'Completed'
+        }
+
         setDetailList(data.data.serviceRequest)
+        if(data.data.service.categoryid == 1){
+            //Service status with id NUmber
+            data.data.service.categoryid = 'cleaning'
+        }else if(data.data.service.categoryid == 2){
+            data.data.service.categoryid = 'babysitting'
+        }else if(data.data.service.categoryid == 3){
+            data.data.service.categoryid = 'pest control'
+        }else if(data.data.service.categoryid == 4){
+            data.data.service.categoryid = 'plumbing'
+        }else if(data.data.service.categoryid == 5){
+            data.data.service.categoryid = 'electrical repairs'
+        }else if(data.data.service.categoryid == 6){
+            data.data.service.categoryid = 'beauty'
+        }
+        setDetailList222(data.data.service)
     };
 
     useEffect(()=>{
             $handleServiceRequest(requestStatus.id,requestStatus.status,requestStatus.reason).then(data=>{
                 if(data.code == 200){
                     setNotiMsg({type: 'success', description:data.data})
+                    location.reload();
                 }else{
                     setNotiMsg({type: 'error',description: data.data})
                 }
             })
+
+
         },
     [requestStatus])
 
@@ -225,7 +256,10 @@ export default function ProviderServicePage(){
             key: 'action',
             render: (ret) => (
                 <Space size="middle">
-                    <Button type="primary" className='table-button-agree' onClick={()=>{setRequestStatus({id: ret.orderid,status: 1,reason: "Service Accepted"})}}>
+                    <Button type="primary" className='table-button-agree' onClick={()=>{
+                        setRequestStatus({id: ret.orderid,status: 1,reason: "Service Accepted"})
+
+                    }}>
                         Agree
                     </Button>
                     <Button type="primary" className='table-button-delete' onClick={()=>{
@@ -250,7 +284,9 @@ export default function ProviderServicePage(){
             <Row style={{marginTop:40}}>
                 <Col span={4} style={{marginLeft:10}}>
                     <Select  style={{width:160}} className='service-status-selector' options={requestStatusList} defaultValue={'--Select Status--'} onSelect={(value)=>{
-                        setStatus(value)}} />
+                        setStatus(value)
+                        setPageIndex(1)
+                    }} />
                 </Col>
             </Row>
             <Table columns={serviceColumns} dataSource={serviceList} style={{marginTop:20}} pagination={false} />
@@ -295,6 +331,9 @@ export default function ProviderServicePage(){
                     <Col span={12}>
                         <DescriptionItem title="📌 Create time" content={detailList.createtime} />
                     </Col>
+                    <Col span={12}>
+                        <DescriptionItem title="📌 Category" content={detailLIst222.categoryid} />
+                    </Col>
 
                 </Row>
                 <Row>
@@ -308,6 +347,9 @@ export default function ProviderServicePage(){
                 <Row>
                     <Col span={12}>
                         <DescriptionItem title="📌 Description" content={detailList.description} />
+                    </Col>
+                    <Col span={12}>
+                        <DescriptionItem title="📌 Customer Address" content={detailList.customeraddress} />
                     </Col>
                 </Row>
                 <Divider />

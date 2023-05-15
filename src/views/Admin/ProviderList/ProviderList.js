@@ -18,6 +18,7 @@ export default function ProviderList() {
         let data = await $del(ret.providerid)
         if(data.data.code == 200) {
             setNotiMsg({type: 'success', description: data.data.data})
+            location.reload()
         }else{
             setNotiMsg({type: 'error', description: data.data.data})
         }

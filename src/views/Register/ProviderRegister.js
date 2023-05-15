@@ -129,10 +129,12 @@ export default function ProviderRegister() {
 
                     <Form.Item name="servicetype" label="Service Type">
                         <Radio.Group>
-                            <Radio value='health'>health</Radio>
+                            <Radio value='cleaning'>cleaning</Radio>
                             <Radio value='beauty'>beauty</Radio>
                             <Radio value='babysitting'>babysitting</Radio>
-                            <Radio value='food'>food</Radio>
+                            <Radio value='pest control'>pest control</Radio>
+                            <Radio value='electrical repair'>electrical repair</Radio>
+                            <Radio value='plumbing'>plumbing</Radio>
                         </Radio.Group>
                     </Form.Item>
 

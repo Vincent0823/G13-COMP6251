@@ -176,6 +176,7 @@ export default function Admin() {
         $agree({ret}).then(data=>{
             if(data.data.code == 200) {
                 setNotiMsg({type: 'success', description: data.data.data})
+                location.reload()
             }else{
                 setNotiMsg({type: 'error', description: data.data.data})
             }
@@ -188,6 +189,7 @@ export default function Admin() {
             if(ret.id == doubleCheckID){
                 if(data.data.code == 200) {
                     setNotiMsg({type: 'success', description: "Application Rejected"})
+                    location.reload()
                 }else{
                     setNotiMsg({type: 'error', description: data.data.data})
                 }
@@ -203,6 +205,7 @@ export default function Admin() {
             if(ret.id == doubleCheckID){
                 if(data.data.code == 200) {
                     setNotiMsg({type: 'success', description: data.data.data})
+                    location.reload()
                 }else{
                     setNotiMsg({type: 'error', description: data.data.data})
                 }
