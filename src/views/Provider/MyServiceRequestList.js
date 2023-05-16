@@ -163,8 +163,6 @@ export default function ProviderServicePage(){
                     setNotiMsg({type: 'error',description: data.data})
                 }
             })
-
-
         },
     [requestStatus])
 
